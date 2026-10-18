@@ -16,7 +16,8 @@
     "check": "node scripts/check.mjs",
     "test:browser": "node test/browser.mjs",
     "test:dom": "node test/dom-smoke.mjs",
-    "test:dom-room": "node test/dom-room.mjs"
+    "test:dom-room": "node test/dom-room.mjs",
+    "pretest": "node scripts/build-vendor.mjs"
   },
   "dependencies": {
     "jassub": "^2.5.7"

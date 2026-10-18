@@ -46,7 +46,7 @@ git init
 git add .
 git commit -m "AList Watchparty"
 git branch -M main
-git remote add origin git@github.com:<你的用户名>/alist-watchparty.git
+git remote add origin git@github.com:luvhx/alist-watchparty.git
 git push -u origin main
 ```
 
@@ -57,9 +57,9 @@ git push -u origin main
 3. 推送到：
 
 ```text
-ghcr.io/<你的用户名>/alist-watchparty:latest
-ghcr.io/<你的用户名>/alist-watchparty:sha-<短哈希>
-ghcr.io/<你的用户名>/alist-watchparty:<版本号>   # 打 v* tag 时
+ghcr.io/luvhx/alist-watchparty:latest
+ghcr.io/luvhx/alist-watchparty:sha-<短哈希>
+ghcr.io/luvhx/alist-watchparty:<版本号>   # 打 v* tag 时
 ```
 
 GitHub Actions 使用仓库自带的 `GITHUB_TOKEN`，不需要额外配置 Docker Hub / Registry secret。
@@ -67,7 +67,7 @@ GitHub Actions 使用仓库自带的 `GITHUB_TOKEN`，不需要额外配置 Dock
 > GHCR 新包默认可能是 **private**。要么在 GitHub 的 Package 设置里改成 public，要么在部署机上执行：
 >
 > ```bash
-> echo <你的 GitHub PAT> | docker login ghcr.io -u <你的用户名> --password-stdin
+> echo <你的 GitHub PAT> | docker login ghcr.io -u luvhx --password-stdin
 > ```
 
 ### 2. 配置 `.env`
@@ -80,7 +80,7 @@ cp .env.example .env
 
 ```env
 # 预构建镜像的完整地址
-IMAGE=ghcr.io/<你的用户名>/alist-watchparty:latest
+IMAGE=ghcr.io/luvhx/alist-watchparty:latest
 
 # AList / OpenList / 小雅 alist 的 AList 兼容 API
 ALIST_URL=http://host.docker.internal:5244

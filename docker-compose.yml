@@ -14,11 +14,26 @@ services:
     restart: unless-stopped
     ports:
       - "${HOST_PORT:-8364}:8364"
-    env_file:
-      - .env
+
+    # Compose reads .env from this directory for ${...} interpolation. Passing
+    # the values explicitly also lets 1Panel's environment UI work without an
+    # env_file entry.
     environment:
       PORT: "8364"
       HOST: "0.0.0.0"
+      ALIST_URL: "${ALIST_URL:-}"
+      ALIST_TOKEN: "${ALIST_TOKEN:-}"
+      ALIST_USERNAME: "${ALIST_USERNAME:-}"
+      ALIST_PASSWORD: "${ALIST_PASSWORD:-}"
+      ALIST_ROOT: "${ALIST_ROOT:-/}"
+      PROXY_SECRET: "${PROXY_SECRET:-}"
+      PROXY_USER_AGENT: "${PROXY_USER_AGENT:-}"
+      PROXY_REFERER: "${PROXY_REFERER:-}"
+      PROXY_COOKIE: "${PROXY_COOKIE:-}"
+      PROXY_COOKIE_HOSTS: "${PROXY_COOKIE_HOSTS:-}"
+      ALLOW_ANY_URL: "${ALLOW_ANY_URL:-0}"
+      ALLOW_PRIVATE_UPSTREAM: "${ALLOW_PRIVATE_UPSTREAM:-0}"
+      ROOM_MAX_MEMBERS: "${ROOM_MAX_MEMBERS:-32}"
 
     # AList/OpenList on the Docker host (Linux): uncomment this so the container
     # can reach the host by name instead of an IP that changes.

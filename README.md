@@ -1,10 +1,12 @@
 # Watchparty
 
-[![Build and publish image](https://github.com/luvhx/watchparty/actions/workflows/docker.yml/badge.svg)](https://github.com/luvhx/watchparty/actions/workflows/docker.yml)
-[![GitHub Container Registry](https://img.shields.io/badge/ghcr.io-luvhx%2Fwatchparty-2496ED?logo=docker&logoColor=white)](https://github.com/luvhx/watchparty/pkgs/container/watchparty)
+[![Build and publish image](https://github.com/luvhx/alist-watchparty/actions/workflows/docker.yml/badge.svg)](https://github.com/luvhx/alist-watchparty/actions/workflows/docker.yml)
+[![GitHub Container Registry](https://img.shields.io/badge/ghcr.io-luvhx%2Fwatchparty-2496ED?logo=docker&logoColor=white)](https://github.com/users/luvhx/packages/container/watchparty)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
 
-仓库：<https://github.com/luvhx/watchparty>
+仓库：<https://github.com/luvhx/alist-watchparty>
+
+> 项目名已改为 **Watchparty**；GitHub 仓库重命名为 `watchparty` 后，旧地址会自动重定向。
 
 在浏览器里播放 **AList / OpenList / 小雅 alist 的网盘直链**，或者任意等效的视频直链，并且和朋友**一起看**：
 

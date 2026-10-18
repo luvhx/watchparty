@@ -90,6 +90,10 @@ function contentHeaders(upstream, url) {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Expose-Headers': 'Content-Length, Content-Range, Accept-Ranges, Content-Type',
     'Cache-Control': 'no-store',
+    // Nginx/OpenResty (including 1Panel) buffers proxied responses by default.
+    // For a multi-GB video that means temp files and a very late first byte;
+    // this tells nginx to stream this response straight through.
+    'X-Accel-Buffering': 'no',
     'Accept-Ranges': 'bytes',
   };
   for (const name of ['content-type', 'content-length', 'content-range', 'last-modified', 'etag']) {

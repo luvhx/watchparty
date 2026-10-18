@@ -1,7 +1,9 @@
 # syntax=docker/dockerfile:1
 # Static site + Node server + WebSocket relay. The build stage produces the
 # JASSUB vendor bundle; the runtime stage needs no node_modules at all.
-FROM node:22-alpine AS build
+# The build stage produces only static JS/wasm, identical on every architecture.
+# Pin it to the builder so a multi-arch build does not run npm under QEMU.
+FROM --platform=$BUILDPLATFORM node:22-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --no-audit --no-fund

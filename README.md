@@ -1,5 +1,11 @@
 # AList Watchparty
 
+[![Build and publish image](https://github.com/luvhx/alist-watchparty/actions/workflows/docker.yml/badge.svg)](https://github.com/luvhx/alist-watchparty/actions/workflows/docker.yml)
+[![GitHub Container Registry](https://img.shields.io/badge/ghcr.io-luvhx%2Falist--watchparty-2496ED?logo=docker&logoColor=white)](https://github.com/luvhx/alist-watchparty/pkgs/container/alist-watchparty)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
+
+仓库：<https://github.com/luvhx/alist-watchparty>
+
 在浏览器里播放 **AList / OpenList / 小雅 alist 的网盘直链**，或者任意等效的视频直链，并且和朋友**一起看**：
 
 - 服务端代理上游直链，按需补 `User-Agent` / `Referer` / Cookie，转发 `Range` 和 302；
@@ -38,37 +44,49 @@ http://localhost:8364/
 
 镜像由 GitHub Actions 构建并推到 **GitHub Container Registry**，Compose 默认只拉镜像，不在服务器上编译。
 
-### 1. 推到 GitHub
+### 1. 镜像已经发布
+
+本仓库当前的公开镜像：
+
+```text
+ghcr.io/luvhx/alist-watchparty:latest
+ghcr.io/luvhx/alist-watchparty:sha-<commit>
+```
+
+- `latest`：main 分支最新构建；
+- `sha-<短哈希>`：对应 commit，适合固定版本；
+- 打 `v*` tag 时还会发布版本号 tag；
+- 支持 `linux/amd64` 和 `linux/arm64`。
+
+拉取测试：
 
 ```bash
-cd alist-watchparty
+docker pull ghcr.io/luvhx/alist-watchparty:latest
+```
+
+[.github/workflows/docker.yml](.github/workflows/docker.yml) 在每次 push 到 `main` 时自动：
+
+1. 跑 `npm run check`、`npm run build`、`npm test`；
+2. 构建多架构镜像；
+3. 推送到 GHCR。
+
+<details>
+<summary>Fork 后怎么发布自己的镜像</summary>
+
+```bash
 git init
 git add .
 git commit -m "AList Watchparty"
 git branch -M main
-git remote add origin git@github.com:luvhx/alist-watchparty.git
+git remote add origin git@github.com:<你的用户>/alist-watchparty.git
 git push -u origin main
 ```
 
-推送后，[.github/workflows/docker.yml](.github/workflows/docker.yml) 会自动：
+Workflow 会把镜像推到 `ghcr.io/<你的用户>/alist-watchparty`。然后改 `.env` 里的
+`IMAGE`。Fork 的 GHCR 包默认可能是 private：在 Package 设置里改成 public，或部署机
+`docker login ghcr.io`。
 
-1. 跑 `npm run check`、`npm run build`、`npm test`；
-2. 构建 `linux/amd64` + `linux/arm64` 镜像；
-3. 推送到：
-
-```text
-ghcr.io/luvhx/alist-watchparty:latest
-ghcr.io/luvhx/alist-watchparty:sha-<短哈希>
-ghcr.io/luvhx/alist-watchparty:<版本号>   # 打 v* tag 时
-```
-
-GitHub Actions 使用仓库自带的 `GITHUB_TOKEN`，不需要额外配置 Docker Hub / Registry secret。
-
-> GHCR 新包默认可能是 **private**。要么在 GitHub 的 Package 设置里改成 public，要么在部署机上执行：
->
-> ```bash
-> echo <你的 GitHub PAT> | docker login ghcr.io -u luvhx --password-stdin
-> ```
+</details>
 
 ### 2. 配置 `.env`
 

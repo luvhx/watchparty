@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AList Watchparty</title>
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<header>
+  <div class="brand"><b>AList</b><span>Watchparty</span></div>
+  <div class="header-sp"></div>
+  <div id="conn" class="pill off">未连接房间</div>
+  <button id="fsBtn" class="btn ghost" type="button">全屏画面</button>
+</header>
+
+<main>
+  <section class="player-col">
+    <div id="stage">
+      <video id="video" playsinline controls preload="metadata"></video>
+      <canvas id="danmaku" aria-hidden="true"></canvas>
+      <div id="placeholder">
+        <b>从右侧选择片源</b>
+        <span>OpenList / 小雅 alist / AList，或任意 MP4 / MKV / WebM / FLV 直链</span>
+      </div>
+      <div id="toast" class="toast" hidden></div>
+    </div>
+
+    <div class="nowbar">
+      <div class="now-main">
+        <div id="nowTitle">尚未载入</div>
+        <div id="nowMeta" class="muted"></div>
+      </div>
+      <div class="now-side">
+        <div id="syncState" class="muted">未加入房间</div>
+        <div id="waitState" class="muted"></div>
+      </div>
+    </div>
+
+    <div class="trackbar">
+      <label>视频 <select id="videoTrack"></select></label>
+      <label>音频 <select id="audioTrack"></select></label>
+      <label>字幕 <select id="subSel"><option value="-2">关闭</option></select></label>
+      <label>倍速 <select id="rate"></select></label>
+      <label class="check"><input type="checkbox" id="dmkToggle" checked> 弹幕</label>
+    </div>
+  </section>
+
+  <aside>
+    <section class="card">
+      <h2>片源</h2>
+      <div class="tabs">
+        <button class="tab on" data-tab="alist" type="button">AList / OpenList</button>
+        <button class="tab" data-tab="url" type="button">直链</button>
+      </div>
+
+      <div id="tab-alist">
+        <div class="row">
+          <input id="alPath" value="/" spellcheck="false" aria-label="AList / OpenList 路径">
+          <button id="alGo" class="btn" type="button">浏览</button>
+        </div>
+        <div id="alCrumb" class="crumb"></div>
+        <ul id="alList" class="filelist"><li class="muted">载入中…</li></ul>
+        <div id="alStatus" class="hint"></div>
+      </div>
+
+      <div id="tab-url" hidden>
+        <div class="row">
+          <input id="directUrl" placeholder="https://example.com/movie.mp4" spellcheck="false" aria-label="直链地址">
+          <button id="directGo" class="btn" type="button">播放</button>
+        </div>
+        <p class="hint">会经过本站代理补 UA / Referer / Range。服务器回源时必须是 http(s) 直链，不是网页地址；AList / OpenList / 小雅 alist 的 /d/ 链接也可以。</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>外挂字幕</h2>
+      <div class="row">
+        <input id="subUrl" placeholder="字幕 URL：.srt / .vtt / .ass" spellcheck="false" aria-label="字幕地址">
+        <button id="subLoad" class="btn" type="button">加载</button>
+      </div>
+      <div class="row">
+        <label class="filebtn">选择字幕文件<input id="subFile" type="file" accept=".srt,.vtt,.ass,.ssa,text/plain"></label>
+        <button id="subOff" class="btn ghost" type="button">关闭外挂</button>
+      </div>
+      <div id="subStatus" class="hint">内嵌字幕会出现在上面的“字幕”菜单里；外挂字幕只影响本机。</div>
+    </section>
+
+    <section class="card">
+      <h2>一起看</h2>
+      <div id="roomLobby">
+        <div class="row">
+          <input id="roomName" placeholder="你的昵称" maxlength="24" aria-label="昵称">
+          <input id="roomCode" placeholder="房间号，留空新建" maxlength="6" aria-label="房间号">
+        </div>
+        <div class="row">
+          <input id="roomPass" placeholder="房间密码（可选）" type="password" maxlength="64" aria-label="房间密码">
+          <input id="relay" placeholder="中转地址，默认当前站点" spellcheck="false" aria-label="中转地址">
+        </div>
+        <div class="row">
+          <button id="roomGo" class="btn primary" type="button">创建 / 加入</button>
+          <button id="roomLeave" class="btn ghost" type="button" hidden>退出房间</button>
+          <button id="roomCopy" class="btn ghost" type="button" hidden>复制邀请</button>
+        </div>
+      </div>
+      <div id="roomInfo" hidden>
+        <div class="room-head"><b id="roomCodeShow"></b><span id="roomHost" class="tag">房主</span></div>
+        <div id="members" class="members"></div>
+      </div>
+      <div id="roomStatus" class="hint">创建一个房间，把邀请链接发给朋友；片源和进度会一起同步。</div>
+      <div id="sourceOffer" class="offer" hidden>
+        <div id="offerText"></div>
+        <button id="offerGo" class="btn" type="button">跟上房间</button>
+      </div>
+    </section>
+
+    <section class="card chat">
+      <h2>讨论区 <span class="muted">弹幕 / 聊天</span></h2>
+      <div id="chatList" class="chatlist"><div class="muted">加入房间后可以发言。消息会以弹幕形式飘过画面。</div></div>
+      <div class="row">
+        <input id="chatText" placeholder="说点什么…（回车发送）" maxlength="500" aria-label="聊天内容">
+        <button id="chatSend" class="btn primary" type="button">发送</button>
+      </div>
+    </section>
+
+    <details class="card log" open>
+      <summary>日志</summary>
+      <div id="log"></div>
+    </details>
+  </aside>
+</main>
+
+<script type="module" src="./app.js"></script>
+</body>
+</html>

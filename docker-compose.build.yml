@@ -1,0 +1,11 @@
+# Local-build override. Use it when you do not want to pull the pre-built image:
+#
+#   docker compose -f docker-compose.yml -f docker-compose.build.yml up -d --build
+#
+services:
+  alist-watchparty:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: alist-watchparty:local
+    pull_policy: missing

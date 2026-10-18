@@ -17,6 +17,11 @@ export class AList {
     this.token = cfg.alistToken;
     this.user = cfg.alistUser;
     this.pass = cfg.alistPass;
+    // The upstream (115 etc.) may bind the signed CDN URL to the UA that was
+    // used when the link was minted. The proxy will fetch that URL with the
+    // same UA, so the AList API request must carry it too -- otherwise the
+    // CDN answers 403 "invalid signature".
+    this.userAgent = cfg.proxyUserAgent;
     this.log = log;
     this._login = null;
   }
@@ -45,6 +50,7 @@ export class AList {
   async _fetch(path, init = {}, auth = true) {
     const url = this.base + path;
     const headers = { 'Content-Type': 'application/json', ...(init.headers || {}) };
+    if (this.userAgent) headers['User-Agent'] = this.userAgent;
     if (auth) headers.Authorization = await this.ensureToken();
     const ac = new AbortController();
     const timer = setTimeout(() => ac.abort(), 20_000);

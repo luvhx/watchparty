@@ -75,7 +75,7 @@ test('AList list and resolve use the server-side token', async t => {
     let body = '';
     req.on('data', c => { body += c; });
     req.on('end', () => {
-      seen.push({ url: req.url, auth: req.headers.authorization, body });
+      seen.push({ url: req.url, auth: req.headers.authorization, ua: req.headers['user-agent'], body });
       res.setHeader('Content-Type', 'application/json');
       if (req.url === '/api/fs/list') {
         res.end(JSON.stringify({ code: 200, data: { content: [
@@ -90,7 +90,7 @@ test('AList list and resolve use the server-side token', async t => {
     });
   });
   t.after(() => ol.close());
-  const app = await startApp({ ALIST_URL: ol.url, ALIST_TOKEN: 'tok' });
+  const app = await startApp({ ALIST_URL: ol.url, ALIST_TOKEN: 'tok', PROXY_USER_AGENT: 'TestUA/1.0' });
   t.after(() => app.stop());
 
   const list = await (await fetch(app.base + '/api/alist/list', {
@@ -107,4 +107,6 @@ test('AList list and resolve use the server-side token', async t => {
   assert.equal(get.title, 'movie.mkv');
   assert.match(get.stream, /^\/api\/stream\?/);
   assert.ok(seen.every(x => x.auth === 'tok'));
+  // The UA used to mint the upstream link must be the UA the stream proxy uses.
+  assert.ok(seen.every(x => x.ua === 'TestUA/1.0'));
 });

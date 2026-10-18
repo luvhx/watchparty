@@ -1,4 +1,4 @@
-// AList Watchparty — browser side.
+// Watchparty — browser side.
 //
 // The player/remux engine and the room/sync engine are vendored from LinWeb
 // (MIT, see NOTICE.md). This file is the glue: AList browsing, a source
@@ -27,7 +27,7 @@ const state = {
   messages: [],
   roomCode: '',
   relay: '',
-  name: localStorage.getItem('awp:name') || '',
+  name: localStorage.getItem('wp:name') || '',
   remoteSource: null,
   loadToken: 0,
 };
@@ -262,7 +262,7 @@ function setNowPlaying(title, meta) {
   $('#nowTitle').textContent = title || '未命名';
   $('#nowMeta').textContent = meta || '';
   $('#placeholder').style.display = 'none';
-  try { document.title = `${title || 'AList Watchparty'} · AList Watchparty`; } catch {}
+  try { document.title = `${title || 'Watchparty'} · Watchparty`; } catch {}
 }
 
 function isHls(url) { return /\.(m3u8|mpd)(\?|$)/i.test(url || ''); }
@@ -562,7 +562,7 @@ function joinRoom() {
   const relay = $('#relay').value.trim() || defaultRelay();
   const pass = $('#roomPass').value;
   state.name = name; state.relay = relay;
-  localStorage.setItem('awp:name', name);
+  localStorage.setItem('wp:name', name);
   $('#roomName').value = name;
   $('#roomCode').value = code;
   $('#relay').value = relay;
@@ -778,7 +778,7 @@ $('#fsBtn').onclick = () => {
   const name = state.name || `观众${Math.floor(Math.random() * 900 + 100)}`;
   $('#roomName').value = name;
   const relay = defaultRelay();
-  $('#relay').value = localStorage.getItem('awp:relay') || relay;
+  $('#relay').value = localStorage.getItem('wp:relay') || relay;
 
   // Deep links: ?path=... / ?url=... and #together=...&relay=...
   const params = new URLSearchParams(location.search);

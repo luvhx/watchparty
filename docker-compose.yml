@@ -1,4 +1,4 @@
-# AList Watchparty — Compose deployment using a pre-built image.
+# Watchparty — Compose deployment using a pre-built image.
 #
 #   cp .env.example .env
 #   docker compose pull
@@ -8,9 +8,9 @@
 # compose implementations accept. The image itself already carries EXPOSE,
 # HEALTHCHECK and USER, so none of that is repeated here.
 services:
-  alist-watchparty:
-    image: ${IMAGE:-ghcr.io/luvhx/alist-watchparty:latest}
-    container_name: alist-watchparty
+  watchparty:
+    image: ${IMAGE:-ghcr.io/luvhx/watchparty:latest}
+    container_name: watchparty
     restart: unless-stopped
     ports:
       - "${HOST_PORT:-8364}:8364"

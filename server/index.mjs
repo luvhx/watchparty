@@ -60,7 +60,7 @@ async function handleApi(req, res, url) {
     return;
   }
 
-  if (p === '/api/health') { sendJson(res, 200, { ok: true, service: 'alist-watchparty' }); return; }
+  if (p === '/api/health') { sendJson(res, 200, { ok: true, service: 'watchparty' }); return; }
 
   if (p === '/api/config') {
     sendJson(res, 200, {
@@ -159,7 +159,7 @@ attachTogether(server, cfg, log);
 server.listen(cfg.port, cfg.host, () => {
   const lans = Object.values(networkInterfaces()).flat()
     .filter(n => n && n.family === 'IPv4' && !n.internal).map(n => n.address);
-  log(`AList Watchparty listening on http://localhost:${cfg.port}`);
+  log(`Watchparty listening on http://localhost:${cfg.port}`);
   for (const ip of lans) log(`  LAN: http://${ip}:${cfg.port}`);
   log(cfg.alistUrl ? `AList backend: ${cfg.alistUrl}` : 'AList backend: 未配置（仍可粘贴任意直链）');
   log(`arbitrary URL proxy: ${cfg.allowAnyUrl ? 'on' : 'off'} · private upstream: ${cfg.allowPrivate ? 'on' : 'off'}`);

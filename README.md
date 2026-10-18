@@ -1,10 +1,10 @@
-# AList Watchparty
+# Watchparty
 
-[![Build and publish image](https://github.com/luvhx/alist-watchparty/actions/workflows/docker.yml/badge.svg)](https://github.com/luvhx/alist-watchparty/actions/workflows/docker.yml)
-[![GitHub Container Registry](https://img.shields.io/badge/ghcr.io-luvhx%2Falist--watchparty-2496ED?logo=docker&logoColor=white)](https://github.com/luvhx/alist-watchparty/pkgs/container/alist-watchparty)
+[![Build and publish image](https://github.com/luvhx/watchparty/actions/workflows/docker.yml/badge.svg)](https://github.com/luvhx/watchparty/actions/workflows/docker.yml)
+[![GitHub Container Registry](https://img.shields.io/badge/ghcr.io-luvhx%2Fwatchparty-2496ED?logo=docker&logoColor=white)](https://github.com/luvhx/watchparty/pkgs/container/watchparty)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
 
-仓库：<https://github.com/luvhx/alist-watchparty>
+仓库：<https://github.com/luvhx/watchparty>
 
 在浏览器里播放 **AList / OpenList / 小雅 alist 的网盘直链**，或者任意等效的视频直链，并且和朋友**一起看**：
 
@@ -49,8 +49,8 @@ http://localhost:8364/
 本仓库当前的公开镜像：
 
 ```text
-ghcr.io/luvhx/alist-watchparty:latest
-ghcr.io/luvhx/alist-watchparty:sha-<commit>
+ghcr.io/luvhx/watchparty:latest
+ghcr.io/luvhx/watchparty:sha-<commit>
 ```
 
 - `latest`：main 分支最新构建；
@@ -61,7 +61,7 @@ ghcr.io/luvhx/alist-watchparty:sha-<commit>
 拉取测试：
 
 ```bash
-docker pull ghcr.io/luvhx/alist-watchparty:latest
+docker pull ghcr.io/luvhx/watchparty:latest
 ```
 
 [.github/workflows/docker.yml](.github/workflows/docker.yml) 在每次 push 到 `main` 时自动：
@@ -76,13 +76,13 @@ docker pull ghcr.io/luvhx/alist-watchparty:latest
 ```bash
 git init
 git add .
-git commit -m "AList Watchparty"
+git commit -m "Watchparty"
 git branch -M main
-git remote add origin git@github.com:<你的用户>/alist-watchparty.git
+git remote add origin git@github.com:<你的用户>/watchparty.git
 git push -u origin main
 ```
 
-Workflow 会把镜像推到 `ghcr.io/<你的用户>/alist-watchparty`。然后改 `.env` 里的
+Workflow 会把镜像推到 `ghcr.io/<你的用户>/watchparty`。然后改 `.env` 里的
 `IMAGE`。Fork 的 GHCR 包默认可能是 private：在 Package 设置里改成 public，或部署机
 `docker login ghcr.io`。
 
@@ -98,7 +98,7 @@ cp .env.example .env
 
 ```env
 # 预构建镜像的完整地址
-IMAGE=ghcr.io/luvhx/alist-watchparty:latest
+IMAGE=ghcr.io/luvhx/watchparty:latest
 
 # AList / OpenList / 小雅 alist 的 AList 兼容 API
 ALIST_URL=http://host.docker.internal:5244
@@ -152,14 +152,14 @@ docker compose config                    # 检查 compose 解析结果
 docker compose -f docker-compose.yml -f docker-compose.build.yml up -d --build
 ```
 
-本地构建镜像名是 `alist-watchparty:local`，不会覆盖 `.env` 里的 `IMAGE`。
+本地构建镜像名是 `watchparty:local`，不会覆盖 `.env` 里的 `IMAGE`。
 
 ### 不用 Compose 的 Docker
 
 ```bash
-docker build -t alist-watchparty .
-docker run -d --name alist-watchparty --restart unless-stopped \
-  -p 8364:8364 --env-file .env alist-watchparty
+docker build -t watchparty .
+docker run -d --name watchparty --restart unless-stopped \
+  -p 8364:8364 --env-file .env watchparty
 ```
 
 容器内部固定监听 **8364**。
@@ -208,7 +208,7 @@ ALLOW_PRIVATE_UPSTREAM=1
 
 ```yaml
 services:
-  alist-watchparty:
+  watchparty:
     networks: [media]
   openlist:
     networks: [media]

@@ -1,9 +1,9 @@
 # Test, build and publish the pre-built image used by docker-compose.yml.
 #
 # The image is published to GitHub Container Registry:
-#   ghcr.io/<owner>/<repo>:latest
-#   ghcr.io/<owner>/<repo>:sha-<short>
-#   ghcr.io/<owner>/<repo>:<semver>   (on v* tags)
+#   ghcr.io/<owner>/watchparty:latest
+#   ghcr.io/<owner>/watchparty:sha-<short>
+#   ghcr.io/<owner>/watchparty:<semver>   (on v* tags)
 #
 # After the first successful run, set IMAGE in .env to that tag. By default a
 # new GHCR package is private; either make it public in the package settings or
@@ -46,7 +46,7 @@ jobs:
 
       # GHCR requires a lowercase image name; GitHub repository names may not be.
       - name: Normalise image name
-        run: echo "IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
+        run: echo "IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/watchparty" >> "$GITHUB_ENV"
 
       - uses: docker/setup-qemu-action@v3
         with:
